@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Tally — Smart Word Counter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Nunito:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <style type="text/tailwindcss" data-teda="tailwind-apply">
+    @layer components {
+      .btn-primary { @apply bg-[#E11D48] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#E11D48]/30 whitespace-nowrap; }
+      .btn-secondary { @apply border border-[#E7E5E4] text-[#1C1917] bg-white px-6 py-3 rounded-xl hover:bg-[#FAF9F7] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#6366F1]/20 whitespace-nowrap; }
+      .btn-link { @apply text-[#6366F1] hover:underline underline-offset-4 font-medium; }
+      .card { @apply bg-white ring-1 ring-black/5 rounded-2xl shadow-xl; }
+      .badge { @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#F5F5F4] text-[#78716C]; }
+    }
+  </style>
+</head>
+<body class="bg-[#FAF9F7] text-[#1C1917]">
+  <header class="sticky top-0 z-40 bg-[#FAF9F7]/90 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <img src="assets/logo.svg" alt="Word Tally logo" class="h-8 w-8" />
+        <span class="text-lg font-extrabold" style="font-family:'Poppins',sans-serif">Word Tally</span>
+      </a>
+      <nav class="flex items-center gap-3">
+        <a href="#features" class="btn-secondary text-sm">Features</a>
+        <a href="app.html" class="btn-primary text-sm">Open the Counter</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero: elevated centered card over full-width artistic background -->
+    <section class="relative overflow-hidden">
+      <div class="hero-bg pointer-events-none" aria-hidden="true"></div>
+      <div class="max-w-7xl mx-auto px-6 py-16 sm:py-20 md:py-28">
+        <div class="card relative mx-auto max-w-3xl p-8 sm:p-10 md:p-12 text-center">
+          <div class="absolute -top-6 left-1/2 -translate-x-1/2">
+            <span class="badge shadow-sm">Instant insights for writers</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight" style="font-family:'Poppins',sans-serif">
+            Count words beautifully. Understand your text quickly.
+          </h1>
+          <p class="mt-4 text-[#78716C] text-base sm:text-lg max-w-2xl mx-auto">
+            Word Tally gives you word and character counts, reading time, keyword density, and readability scores inside a refined, distraction-free interface.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="app.html" class="btn-primary">Open the Counter</a>
+            <a href="#features" class="btn-secondary">Explore Features</a>
+          </div>
+          <ul class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm text-[#78716C]">
+            <li class="rounded-lg border border-[#E7E5E4] p-3">Word & char counts</li>
+            <li class="rounded-lg border border-[#E7E5E4] p-3">Reading time</li>
+            <li class="rounded-lg border border-[#E7E5E4] p-3">Keyword density</li>
+            <li class="rounded-lg border border-[#E7E5E4] p-3">Readability scores</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="max-w-7xl mx-auto px-6 pt-4 pb-16 sm:pb-24">
+      <div class="mb-10 sm:mb-14">
+        <h2 class="text-2xl sm:text-3xl font-extrabold" style="font-family:'Poppins',sans-serif">Everything you need to evaluate text</h2>
+        <p class="text-[#78716C] mt-2 max-w-2xl">Designed for writers, students, marketers, and editors who want fast, reliable metrics without friction.</p>
+      </div>
+      <div class="space-y-6">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="card p-6">
+            <div class="h-10 w-10 rounded-xl bg-[#6366F1]/10 text-[#6366F1] flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3V5zm0 6h12v2H3v-2zm0 6h18v2H3v-2z"/></svg>
+            </div>
+            <h3 class="font-bold" style="font-family:'Poppins',sans-serif">Counts that matter</h3>
+            <p class="text-[#78716C] mt-2">Get words, characters with and without spaces, sentences, and paragraphs in real time.</p>
+          </div>
+          <div class="card p-6">
+            <div class="h-10 w-10 rounded-xl bg-[#6366F1]/10 text-[#6366F1] flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 015 5v3l2 2v1H5v-1l2-2v-3a5 5 0 015-5z"/></svg>
+            </div>
+            <h3 class="font-bold" style="font-family:'Poppins',sans-serif">Reading time</h3>
+            <p class="text-[#78716C] mt-2">Estimate how long it takes to read your content at common reading speeds.</p>
+          </div>
+          <div class="card p-6">
+            <div class="h-10 w-10 rounded-xl bg-[#6366F1]/10 text-[#6366F1] flex items-center justify-center mb-4 shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4 2.5 7-7-4.5L5 20l2.5-7L2 9h7z"/></svg>
+            </div>
+            <h3 class="font-bold" style="font-family:'Poppins',sans-serif">Keyword density</h3>
+            <p class="text-[#78716C] mt-2">See your top terms and their density. Tune for SEO without stuffing.</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-5 gap-6 items-stretch">
+          <div class="md:col-span-3 card p-6 flex flex-col justify-between">
+            <div>
+              <h3 class="font-bold" style="font-family:'Poppins',sans-serif">Readable by design</h3>
+              <p class="text-[#78716C] mt-2">Flesch Reading Ease and Flesch-Kincaid grade level help you write for your audience. Balanced typography and generous spacing make edits effortless.</p>
+            </div>
+            <div class="mt-4">
+              <a class="btn-link" href="app.html">Try it on your text →</a>
+            </div>
+          </div>
+          <div class="md:col-span-2 card p-6">
+            <h4 class="font-semibold" style="font-family:'Poppins',sans-serif">What you get</h4>
+            <ul class="mt-3 space-y-2 text-sm text-[#78716C]">
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-[#E11D48]"></span> Autosave in your browser</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-[#E11D48]"></span> Export keyword CSV</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-[#E11D48]"></span> Keyboard shortcuts</li>
+              <li class="flex items-start gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-[#E11D48]"></span> Mobile friendly layout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[#E7E5E4]">
+    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <img src="assets/logo.svg" alt="" class="h-6 w-6"/>
+        <span class="text-sm">Word Tally</span>
+      </div>
+      <div class="text-sm text-[#78716C]">Built for writers. <a class="btn-link" href="app.html">Open the counter</a></div>
+    </div>
+  </footer>
+
+  <script src="scripts/landing.js"></script>
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/ui.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
