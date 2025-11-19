@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Word Tally — Counter & Analyzer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Nunito:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/tailwindcss-cdn@3.4.10/tailwindcss.js"></script>
+  <style type="text/tailwindcss" data-teda="tailwind-apply">
+    @layer components {
+      .btn-primary { @apply bg-[#E11D48] text-white px-4 py-2.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#E11D48]/30 whitespace-nowrap; }
+      .btn-secondary { @apply border border-[#E7E5E4] text-[#1C1917] bg-white px-4 py-2.5 rounded-xl hover:bg-[#FAF9F7] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#6366F1]/20 whitespace-nowrap; }
+      .btn-ghost { @apply text-[#6366F1] hover:underline underline-offset-4; }
+      .input { @apply w-full bg-white border border-[#E7E5E4] rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6366F1]/30; }
+      .switch { @apply relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full bg-[#E11D48]/20 transition-colors duration-300; }
+      .switch-dot { @apply inline-block h-5 w-5 transform rounded-full bg-white shadow ring-1 ring-black/5 transition-transform duration-300; }
+      .card { @apply bg-white ring-1 ring-black/5 rounded-2xl shadow-lg; }
+      .badge { @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F5F4] text-[#78716C]; }
+    }
+  </style>
+</head>
+<body class="bg-[#FAF9F7] text-[#1C1917]">
+  <header class="border-b border-[#E7E5E4] bg-white/70 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/logo.svg" alt="Word Tally logo" class="h-8 w-8">
+        <span class="text-lg font-extrabold" style="font-family:'Poppins',sans-serif">Word Tally</span>
+      </a>
+      <nav class="flex items-center gap-3 text-sm">
+        <a href="index.html" class="btn-secondary">Home</a>
+        <a href="#keywords" class="btn-secondary">Keywords</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-6 sm:py-10">
+    <div class="grid lg:grid-cols-3 gap-6 items-start">
+      <!-- Editor Card (dominant area) -->
+      <section class="card lg:col-span-2 p-4 sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="badge">Write or paste your text</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <button id="sampleBtn" class="btn-ghost">Try sample</button>
+          </div>
+        </div>
+        <div class="mt-4 grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+          <label class="flex items-center justify-between gap-3 p-3 rounded-xl border border-[#E7E5E4] bg-[#FFFFFF]">
+            <span class="text-sm">Ignore stop words</span>
+            <button id="ignoreStopwords" role="switch" aria-checked="true" class="switch" data-on="true">
+              <span class="switch-dot translate-x-6"></span>
+            </button>
+          </label>
+          <label class="flex items-center justify-between gap-3 p-3 rounded-xl border border-[#E7E5E4] bg-[#FFFFFF]">
+            <span class="text-sm">Case insensitive</span>
+            <button id="caseInsensitive" role="switch" aria-checked="true" class="switch" data-on="true">
+              <span class="switch-dot translate-x-6"></span>
+            </button>
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl border border-[#E7E5E4] bg-[#FFFFFF]">
+            <span class="text-sm whitespace-nowrap">Min word length</span>
+            <input id="minWordLength" type="number" min="1" max="10" value="3" class="input w-24" />
+          </label>
+          <label class="flex items-center gap-3 p-3 rounded-xl border border-[#E7E5E4] bg-[#FFFFFF]">
+            <span class="text-sm whitespace-nowrap">Top keywords</span>
+            <input id="topN" type="number" min="5" max="50" value="10" class="input w-24" />
+          </label>
+        </div>
+
+        <textarea id="inputText" class="mt-4 input h-64 sm:h-72 md:h-80 resize-y" placeholder="Paste your text here..."></textarea>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <button id="analyzeBtn" class="btn-primary">Analyze</button>
+          <button id="clearBtn" class="btn-secondary">Clear</button>
+          <button id="exportBtn" class="btn-secondary">Export keywords CSV</button>
+          <span class="text-xs text-[#78716C] ml-auto">Tip: Press Ctrl+Enter to analyze</span>
+        </div>
+      </section>
+
+      <!-- Insights column -->
+      <aside class="space-y-6">
+        <section class="card p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="font-bold" style="font-family:'Poppins',sans-serif">Overview</h2>
+            <span id="readabilityBadge" class="badge">Ready</span>
+          </div>
+          <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">Words</div>
+              <div id="wordCount" class="text-2xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+            </div>
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">Characters</div>
+              <div id="charCount" class="text-2xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+              <div class="text-xs text-[#78716C]">excluding spaces: <span id="charCountNoSpaces">0</span></div>
+            </div>
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">Sentences</div>
+              <div id="sentenceCount" class="text-2xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+            </div>
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">Paragraphs</div>
+              <div id="paragraphCount" class="text-2xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+            </div>
+          </div>
+          <div class="mt-4 rounded-xl border border-[#E7E5E4] p-3 bg-white text-sm">
+            <div class="flex items-center justify-between">
+              <div class="text-[#78716C]">Average word length</div>
+              <div id="avgWordLength" class="font-semibold">0</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card p-5">
+          <h2 class="font-bold" style="font-family:'Poppins',sans-serif">Reading time</h2>
+          <p id="readingTime" class="mt-3 text-[#78716C]">0 sec</p>
+        </section>
+
+        <section class="card p-5">
+          <h2 class="font-bold" style="font-family:'Poppins',sans-serif">Readability</h2>
+          <div class="mt-3 grid grid-cols-2 gap-3 text-sm">
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">Flesch Reading Ease</div>
+              <div id="fleschScore" class="text-xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+            </div>
+            <div class="rounded-xl border border-[#E7E5E4] p-3 bg-white">
+              <div class="text-[#78716C]">FK Grade Level</div>
+              <div id="fkGrade" class="text-xl font-extrabold" style="font-family:'Poppins',sans-serif">0</div>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section id="keywords" class="mt-8 card p-5">
+      <div class="flex items-center justify-between">
+        <h2 class="font-bold" style="font-family:'Poppins',sans-serif">Top keywords</h2>
+        <span class="text-xs text-[#78716C]">Density is share of total words</span>
+      </div>
+      <div class="mt-3 overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead>
+            <tr class="text-left text-[#78716C]">
+              <th class="py-2 pr-6">Keyword</th>
+              <th class="py-2 pr-6">Count</th>
+              <th class="py-2 pr-6">Density</th>
+            </tr>
+          </thead>
+          <tbody id="keywordTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-10 text-center text-sm text-[#78716C]">
+    <p>Made for focused writing. <a class="btn-ghost" href="index.html">Back to marketing page</a></p>
+  </footer>
+
+  <!-- Required script order -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/ui.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

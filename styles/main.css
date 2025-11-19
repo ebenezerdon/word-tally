@@ -1,0 +1,45 @@
+/* Global typography */
+:root {
+  --bg: #FAF9F7;
+  --surface: #FFFFFF;
+  --border: #E7E5E4;
+  --text: #1C1917;
+  --muted: #78716C;
+  --primary: #E11D48;
+  --accent: #6366F1;
+}
+
+html, body { height: 100%; }
+body { font-family: 'Nunito', sans-serif; background-color: var(--bg); color: var(--text); }
+h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
+
+/* Hero background with soft organic shapes, no heavy gradients */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60px 60px at 15% 20%, rgba(225, 29, 72, 0.06), transparent 70%),
+    radial-gradient(80px 80px at 80% 10%, rgba(99, 102, 241, 0.07), transparent 70%),
+    radial-gradient(100px 100px at 20% 80%, rgba(99, 102, 241, 0.06), transparent 70%),
+    radial-gradient(120px 120px at 90% 70%, rgba(225, 29, 72, 0.05), transparent 70%);
+  filter: saturate(110%);
+}
+
+/* Smooth fade for updates */
+.fade-update { transition: opacity 200ms ease; }
+
+/* Tables */
+table { border-collapse: separate; border-spacing: 0; }
+thead th { border-bottom: 1px solid var(--border); font-weight: 600; }
+tbody tr + tr td { border-top: 1px solid var(--border); }
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* Prevent text wrapping on critical buttons */
+button, .btn { white-space: nowrap; }
+
+/* Utility for invisible file inputs if needed */
+.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
